@@ -4,18 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.io.Serializable;
+import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
+@IdClass(PersonId.class)
 @Table(name = "persons", schema = "hibernate")
-public class Person implements Serializable {
+public class Person {
 
     @Id
     @Column(nullable = false, length = 255)
