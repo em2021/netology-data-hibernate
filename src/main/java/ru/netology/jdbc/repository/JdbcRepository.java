@@ -1,13 +1,11 @@
 package ru.netology.jdbc.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.netology.jdbc.exception.NoSuchCustomerException;
 
-import javax.sql.DataSource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,22 +17,16 @@ import java.util.stream.Collectors;
 @Repository
 public class JdbcRepository {
 
-    private final DataSource dataSource;
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-    @Autowired
-    public JdbcRepository(DataSource dataSource, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.dataSource = dataSource;
-        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-    }
-
+    @PersistenceContext
+    EntityManager entityManager;
     private String sql = read("script.sql");
 
+    @SuppressWarnings("unchecked")
     public List<String> getProductName(String name) throws SQLException {
-        MapSqlParameterSource namedParameters = new MapSqlParameterSource("name", name);
-        List<String> productNamesList = namedParameterJdbcTemplate.queryForList(sql,
-                namedParameters,
-                String.class);
+        List<String> productNamesList = entityManager
+                .createNativeQuery(sql)
+                .setParameter("name", name)
+                .getResultList();
         if (productNamesList.isEmpty()) {
             throw new NoSuchCustomerException("Customer doesn't exist.");
         }
