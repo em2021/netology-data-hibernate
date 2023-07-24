@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: migrations/001-schema-hibernate_persons.sql
+      relativeToChangeLogFile: true
+  - include:
+      file: migrations/002-data-persons.sql
+      relativeToChangeLogFile: true
