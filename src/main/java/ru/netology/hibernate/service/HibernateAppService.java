@@ -41,4 +41,12 @@ public class HibernateAppService {
         }
         return personOpt;
     }
+
+    public List<Person> findAll() {
+        var people = personJpaRepository.findAll();
+        if (people.isEmpty()) {
+            throw new NoSuchEntityException("Database is empty");
+        }
+        return people;
+    }
 }
