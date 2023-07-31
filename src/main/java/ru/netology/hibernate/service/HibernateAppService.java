@@ -1,6 +1,7 @@
 package ru.netology.hibernate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.netology.hibernate.entity.Person;
 import ru.netology.hibernate.exception.NoSuchEntityException;
@@ -23,8 +24,9 @@ public class HibernateAppService {
         return people.get();
     }
 
-    public List<Person> findByLessThanAgeOrderByAgeDesc(Integer age) {
-        var people = personJpaRepository.findByAgeLessThanOrderByAgeDesc(age);
+    public List<Person> findByLessThanAgeOrderByAgeAsc(Integer age) {
+        var people = personJpaRepository
+                .findByAgeLessThanOrderByAgeAsc(age, Sort.by(Sort.Direction.ASC, "age"));
         if (people.isEmpty() || people.get().isEmpty()) {
             throw new NoSuchEntityException("No people under age " + age);
         }

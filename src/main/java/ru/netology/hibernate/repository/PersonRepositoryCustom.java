@@ -1,5 +1,6 @@
 package ru.netology.hibernate.repository;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.netology.hibernate.entity.Person;
@@ -12,7 +13,7 @@ public interface PersonRepositoryCustom {
     Optional<List<Person>> findByCity(@Param("city") String city);
 
     @Query(("select p from Person p where p.age < :age"))
-    Optional<List<Person>> findByAgeLessThanOrderByAgeDesc(@Param("age") Integer age);
+    Optional<List<Person>> findByAgeLessThanOrderByAgeAsc(@Param("age") Integer age, Sort sort);
 
     @Query(("select p from Person p where p.name = :name and p.surname = :surname"))
     Optional<Person> findByNameAndSurname(@Param("name") String name, @Param("surname") String surname);

@@ -26,8 +26,8 @@ public class HibernateAppController {
     }
 
     @RequestMapping("/persons/by-age")
-    public List<Person> findByAgeLessThanOrderByAgeDesc(Integer age) {
-        return hibernateAppService.findByLessThanAgeOrderByAgeDesc(age);
+    public List<Person> findByAgeLessThanOrderByAgeAsc(Integer age) {
+        return hibernateAppService.findByLessThanAgeOrderByAgeAsc(age);
     }
 
     @RequestMapping("/persons/by-name-surname")
